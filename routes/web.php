@@ -11,6 +11,18 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+Route::get('/' , 'PagesController@index');
+Route::get('/about' , 'PagesController@about');
+Route::get('/contact' , 'PagesController@contact');
+Route::get('/browse_recipe' , 'PagesController@browse_recipe');
+
+Auth::routes();
+
+//Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/my_recipes' , 'RecipeController@index');
+Route::get('/recipe/create' , 'RecipeController@create');
+Route::get('/recipe/edit' , 'RecipeController@edit');
+

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRecipeMedicalConditionsTable extends Migration
+class CreateReviewsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,15 @@ class CreateRecipeMedicalConditionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('recipe_medical_conditions', function (Blueprint $table) {
+        Schema::create('reviews', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->integer('review_stars');
+            $table->text('review_message');
+            $table->integer('user_id')->unsigned();
             $table->integer('recipe_id')->unsigned();
             $table->timestamps();
             $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -29,6 +32,6 @@ class CreateRecipeMedicalConditionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('recipe_medical_conditions');
+        Schema::dropIfExists('reviews');
     }
 }

@@ -43,7 +43,7 @@
 	<!-- Logo / Mobile Menu -->
 	<div class="three columns">
 		<div id="logo">
-			<h1><a href="index.html"><img src="{{asset('images/logo.png')}}" alt="Chow" /></a></h1>
+			<h1><a href="{{url('/')}}"><img src="{{asset('images/logo.png')}}" alt="Chow" /></a></h1>
 		</div>
 	</div>
 
@@ -54,7 +54,7 @@
 
 	<nav id="navigation" class="menu nav-collapse">
 		<ul>
-			<li><a href="index.html" id="current">Home</a></li>
+			<li><a href="{{url('/')}}" id="current">Home</a></li>
 
 <!--
 			<li><a href="#">Demos</a>
@@ -65,16 +65,16 @@
 				</ul>
 			</li>
 -->
-			<li><a href="about.html">About</a></li>
+			<li><a href="{{url('about')}}">About</a></li>
 
-			<li><a href="browse-recipes.html">Recipes</a></li>
+			<li><a href="{{url('browse_recipe')}}">Recipes</a></li>
 
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="{{url('contact')}}">Contact</a></li>
 
 			<li><a href="#">Login/Register</a>
 				<ul>
-					<li><a href="login.html">Login</a></li>
-					<li><a href="register.html">Register</a></li>
+					<li><a href="{{url('login')}}">Login</a></li>
+					<li><a href="{{url('register')}}">Register</a></li>
 				</ul>
 			</li>
 
@@ -89,14 +89,14 @@
 
 			<li>
            <a href="#">
-         <img src="images/author-photo.png" alt="" class="img img-responsive img-circle nav-pp">
+         <img src="{{asset('images/author-photo.png')}}" alt="" class="img img-responsive img-circle nav-pp">
            <span class="profile-name-nav">Jane Doe</span>
             </a>
 			    <ul>
-                    <li><a href="my_recipes.html">My Recipes</a></li>
-                    <li><a href="my_reviews.html">My Reviews</a></li>
-			        <li><a href="submit-recipe.html">Submit Recipe</a></li>
-			        <li><a href=""><i class="fa fa-login"></i> Logout</a></li>
+                    <li><a href="{{url('my_recipes')}}">My Recipes</a></li>
+                    <li><a href="{{url('my_reviews')}}">My Reviews</a></li>
+			        <li><a href="{{url('recipe/create')}}">Submit Recipe</a></li>
+			        <li><a href="{{url('logout')}}"><i class="fa fa-login"></i> Logout</a></li>
 			    </ul>
 			</li>
 		</ul>

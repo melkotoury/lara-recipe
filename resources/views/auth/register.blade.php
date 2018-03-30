@@ -62,22 +62,22 @@
                 <mark id="message"></mark>
 
                 <!-- Form -->
-                <form method="post" name="contactform" id="contactform">
-
+                <form method="POST" name="contactform" id="contactform" action="{{ route('register') }}">
+                    @csrf
                     <fieldset>
 
                         <div>
                             <label>Name: <span>*</span></label>
-                            <input name="name" type="text" id="name" />
+                            <input name="name" type="text" id="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"/>
                         </div>
 
                         <div>
                             <label >Email: <span>*</span></label>
-                            <input name="email" type="email" id="email" pattern="^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$" />
+                            <input name="email" type="email" id="email" pattern="^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" />
                         </div>
                         <div>
                             <label>Age: <span>*</span></label>
-                            <input name="age" type="text" id="age" pattern="^\d"/>
+                            <input name="age" type="text" id="age" pattern="^\d" class="form-control{{ $errors->has('age') ? ' is-invalid' : '' }}"/>
                         </div>
                         <div>
                             <label for="gender">Gender: <span>*</span></label>
@@ -87,19 +87,28 @@
                         </div>
 
                         <div>
+                            <label for="password">Password: <span>*</span></label>
+                            <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+                        </div>
+                        <div>
+                            <label for="password-confirm">Confirm Password: <span>*</span></label>
+                            <input id="password-confirm" type="password" class="form-control{{ $errors->has('password-confirm') ? ' is-invalid' : '' }}" name="password-confirm" required>
+                        </div>
+
+                        <div>
                             <label >Allergens:
                                 <span>*</span>
                             </label>
                         </div>
-                        <select data-placeholder="Choose Allergens" class="chosen-select" multiple>
-                            <option value="2">Peanut</option>
-                            <option value="3">Tree nuts</option>
-                            <option value="4">Milk</option>
-                            <option value="5">Egg</option>
-                            <option value="6">Wheat</option>
-                            <option value="7">Soy</option>
-                            <option value="8">Fish</option>
-                            <option value="9">Shellfish</option>
+                        <select data-placeholder="Choose Allergens" class="chosen-select"  name="user_allergen" multiple>
+                            <option value="Peanut">Peanut</option>
+                            <option value="Tree nuts">Tree nuts</option>
+                            <option value="Milk">Milk</option>
+                            <option value="Egg">Egg</option>
+                            <option value="Wheat">Wheat</option>
+                            <option value="Soy">Soy</option>
+                            <option value="Fish">Fish</option>
+                            <option value="Shellfish">Shellfish</option>
                         </select>
                         <!--
                                             <div>
@@ -112,14 +121,14 @@
                                 <span>*</span>
                             </label>
                         </div>
-                        <select data-placeholder="Choose Medical Condition" class="chosen-select" multiple>
-                            <option value="2">Blood Pressure</option>
-                            <option value="3">Diabetics</option>
-                            <option value="4">Uric Acid</option>
-                            <option value="5">Rheumatoid</option>
-                            <option value="6">Anemia</option>
-                            <option value="7">Kidney failure</option>
-                            <option value="8">Fatty liver</option>
+                        <select data-placeholder="Choose Medical Condition" class="chosen-select"  name="user_medical_condition" multiple>
+                            <option value="Blood Pressure">Blood Pressure</option>
+                            <option value="Diabetics">Diabetics</option>
+                            <option value="Uric Acid">Uric Acid</option>
+                            <option value="Rheumatoid">Rheumatoid</option>
+                            <option value="Anemia">Anemia</option>
+                            <option value="Kidney failure">Kidney failure</option>
+                            <option value="Fatty liver">Fatty liver</option>
                         </select>
                     </fieldset>
                     <div id="result"></div>
@@ -139,77 +148,5 @@
 
     </div>
     <!-- Wrapper / End -->
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
-
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
-
-                                @if ($errors->has('name'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection

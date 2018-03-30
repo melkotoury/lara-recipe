@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\UserMedicalCondition;
+use App\UserAllergen;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -63,10 +65,29 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $user = new User();
+        $userAllergen = new UserAllergen();
+        $userMedicalCondition = new UserMedicalCondition();
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->age = $data['age'];
+        $user->gender = $data['gender'];
+        $user->email = Hash::make($data['password']);
+        $user->save();
+
+        for ($i= 0; $i<sizeof($data['user_allergens']);$i++){
+            $userAllergen->name = $data['user_allergens'];
+            $userAllergen->user_id = $user->getId();
+            $userAllergen->save();
+        }
+
+        for ($i= 0; $i<sizeof($data['user_medical_condition']);$i++){
+            $userMedicalCondition->name = $data['user_medical_condition'];
+            $userMedicalCondition->user_id = $user->getId();
+            $userMedicalCondition->save();
+        }
+        return view('pages.home');
+
     }
+
 }

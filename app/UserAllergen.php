@@ -23,4 +23,10 @@ class UserAllergen extends Model
 //    protected $hidden = [
 //        'password', 'remember_token',
 //    ];
+
+    public function getUserAllergen($allergens){
+        foreach ($allergens as $allergen){
+            return $allergen;
+        }
+    }
 }

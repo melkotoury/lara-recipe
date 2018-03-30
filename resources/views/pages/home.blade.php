@@ -4,7 +4,11 @@
      {{--Home page content here--}}
     <!-- Slider
 ================================================== -->
-
+     @if (session('status'))
+         <div class="alert alert-success">
+             {{ session('status') }}
+         </div>
+     @endif
     <div id="homeSlider" class="royalSlider rsDefaultInv">
 
         <!-- Slide #1 -->

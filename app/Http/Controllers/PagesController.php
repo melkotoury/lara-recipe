@@ -6,7 +6,23 @@ use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
-    public function index(){
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index', 'about', 'contact', 'browse_recipe']]);
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
         return view('pages.home');
     }
 
@@ -20,6 +36,9 @@ class PagesController extends Controller
 
     public function browse_recipe(){
         return view('pages.browse_recipe');
+    }
+    public function recommended_recipe(){
+        return view('pages.recommended_recipe');
     }
 
 }

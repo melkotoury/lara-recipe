@@ -1,4 +1,8 @@
-
+<?php
+use Illuminate\Support\Facades\Route;
+$currentPath= Route::getFacadeRoot()->current()->uri();
+//echo $currentPath;
+?>
 
 <!DOCTYPE html>
 <!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
@@ -14,6 +18,9 @@
 <!-- Mobile Specific Metas
 ================================================== -->
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<!-- CSRF Token -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <!-- CSS
 ================================================== -->
@@ -54,7 +61,9 @@
 
 	<nav id="navigation" class="menu nav-collapse">
 		<ul>
-			<li><a href="{{url('/')}}" id="current">Home</a></li>
+
+
+			<li><a href="{{url('/')}}"  id="{{$currentPath==='/'?'current':''}}">Home</a></li>
 
 <!--
 			<li><a href="#">Demos</a>
@@ -65,18 +74,25 @@
 				</ul>
 			</li>
 -->
-			<li><a href="{{url('about')}}">About</a></li>
+			<li><a href="{{url('about')}} " id="{{$currentPath==='about'?'current':''}}">About</a></li>
 
-			<li><a href="{{url('browse_recipe')}}">Recipes</a></li>
+            @auth
+            <li><a href="{{url('recommended_recipe')}} " id="{{$currentPath==='recommended_recipe'?'current':''}}">Recommended Recipe</a></li>
+            @endauth
 
-            <li><a href="{{url('contact')}}">Contact</a></li>
+			<li><a href="{{url('browse_recipe')}} " id="{{$currentPath==='browse_recipe'?'current':''}}">Recipes</a></li>
 
-			<li><a href="#">Login/Register</a>
+            <li><a href="{{url('contact')}} " id="{{$currentPath==='contact'?'current':''}}">Contact</a></li>
+
+            @guest
+			<li><a href="#" id="{{($currentPath==='login') || ($currentPath==='register')?'current':''}}">Login/Register</a>
 				<ul>
-					<li><a href="{{url('login')}}">Login</a></li>
-					<li><a href="{{url('register')}}">Register</a></li>
+					<li><a href="{{url('login')}}" >Login</a></li>
+					<li><a href="{{url('register')}}" >Register</a></li>
 				</ul>
 			</li>
+            @endguest
+
 
 <!--
 			<li><a href="#">Shop</a>
@@ -87,6 +103,7 @@
 			</li>
 -->
 
+            @auth
 			<li>
            <a href="#">
          <img src="{{asset('images/author-photo.png')}}" alt="" class="img img-responsive img-circle nav-pp">
@@ -96,9 +113,17 @@
                     <li><a href="{{url('my_recipes')}}">My Recipes</a></li>
                     <li><a href="{{url('my_reviews')}}">My Reviews</a></li>
 			        <li><a href="{{url('recipe/create')}}">Submit Recipe</a></li>
-			        <li><a href="{{url('logout')}}"><i class="fa fa-login"></i> Logout</a></li>
+			        <li><a href="{{ route('logout') }}"
+						   onclick="event.preventDefault();
+                           document.getElementById('logout-form').submit();">
+							<i class="fa fa-login"></i> Logout</a><
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                        /li>
 			    </ul>
 			</li>
+                @endauth
 		</ul>
 	</nav>
 

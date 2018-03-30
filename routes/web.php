@@ -22,7 +22,6 @@ Route::get('/browse_recipe' , 'PagesController@browse_recipe');
 
 Auth::routes();
 
-//Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/my_recipes' , 'RecipeController@index');
 Route::get('/recipe/create' , 'RecipeController@create');

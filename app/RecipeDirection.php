@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Recipe extends Model
+class RecipeDirection extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,6 +12,6 @@ class Recipe extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'category', 'summary',
+        'name', 'recipe_id' ,
     ];
 }

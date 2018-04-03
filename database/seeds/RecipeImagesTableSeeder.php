@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\RecipeImage;
 
 class RecipeImagesTableSeeder extends Seeder
 {
@@ -11,6 +12,14 @@ class RecipeImagesTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+
+                for ($i=0;$i<10;$i++){
+
+                    RecipeImage::create([
+                        'recipe_id' =>  ($i+1),
+                        'img_url'   =>  ($i+1).'.jpg'
+                    ]);
+                }
+
     }
 }

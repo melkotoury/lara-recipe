@@ -60,7 +60,7 @@
                         <option value="7">Salads</option>
                         <option value="8">Beef</option>
                         <option value="9">Poultry</option>
-                        <option value="10">Pork</option>
+                        <option value="10">Snacks</option>
                         <option value="11">Seafood</option>
                         <option value="12">Vegetarian</option>
                         <option value="13">Vegetables</option>

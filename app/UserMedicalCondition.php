@@ -15,12 +15,8 @@ class UserMedicalCondition extends Model
         'name', 'user_id',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-//    protected $hidden = [
-//        'password', 'remember_token',
-//    ];
+    public function user(){
+        $this->belongsTo('App\User');
+    }
+
 }

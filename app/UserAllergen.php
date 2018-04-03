@@ -15,18 +15,8 @@ class UserAllergen extends Model
         'name', 'user_id',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-//    protected $hidden = [
-//        'password', 'remember_token',
-//    ];
-
-    public function getUserAllergen($allergens){
-        foreach ($allergens as $allergen){
-            return $allergen;
-        }
+    public function user(){
+        $this->belongsTo('App\User');
     }
+
 }

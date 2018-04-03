@@ -14,4 +14,10 @@ class RecipeAdditionalInfo extends Model
     protected $fillable = [
         'preparation_time', 'cooking_time', 'recipe_id' ,
     ];
+
+
+    public function recipe(){
+        $this->belongsTo('App\Recipe');
+    }
+
 }

@@ -15,4 +15,7 @@ class RecipeNutritionFact extends Model
         'calories', 'sodium' ,'fat' ,'protein' , 'recipe_id',
     ];
 
+    public function recipe(){
+        $this->belongsTo('App\Recipe');
+    }
 }

@@ -14,4 +14,9 @@ class RecipeIngredient extends Model
     protected $fillable = [
         'name', 'recipe_id' ,
     ];
+
+
+    public function recipe(){
+        $this->belongsTo('App\Recipe');
+    }
 }

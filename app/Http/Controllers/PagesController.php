@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Recipe;
+use App\Review;
 
 use Illuminate\Http\Request;
 
@@ -23,7 +25,11 @@ class PagesController extends Controller
      */
     public function index()
     {
-        return view('pages.home');
+        $recipes = Recipe::orderBy('created_at', 'desc')
+            ->take(6)
+            ->get();
+
+        return view('pages.home',['recipes'=>$recipes]);
     }
 
     public function about(){

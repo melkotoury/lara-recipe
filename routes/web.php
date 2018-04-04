@@ -25,7 +25,8 @@ Auth::routes();
 
 Route::get('/my_recipes' , 'RecipeController@index');
 Route::get('/recipe/create' , 'RecipeController@create');
-Route::get('/recipe/edit' , 'RecipeController@edit');
+Route::get('/recipe/edit/{id}' , 'RecipeController@edit');
+Route::get('/recipe/{id}' , 'RecipeController@show');
 
 Route::get('/my_reviews', 'ReviewsController@index');
 

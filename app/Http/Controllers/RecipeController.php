@@ -41,12 +41,12 @@ class RecipeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Recipe  $recipe
+     * @param  \App\Recipe  $recipe_id
      * @return \Illuminate\Http\Response
      */
-    public function show(Recipe $recipe)
+    public function show(Recipe $recipe_id)
     {
-        //
+        return view('recipe.details');
     }
 
     /**
@@ -55,7 +55,7 @@ class RecipeController extends Controller
      * @param  \App\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
-    public function edit(Recipe $recipe)
+    public function edit(Recipe $recipe_id)
     {
         return view('recipe.edit');
     }
@@ -67,7 +67,7 @@ class RecipeController extends Controller
      * @param  \App\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Recipe $recipe)
+    public function update(Request $request, Recipe $recipe_id)
     {
         //
     }
@@ -78,8 +78,10 @@ class RecipeController extends Controller
      * @param  \App\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Recipe $recipe)
+    public function destroy(Recipe $recipe_id)
     {
         //
     }
+
+
 }

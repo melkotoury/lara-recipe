@@ -12,7 +12,7 @@ class RecipeImage extends Model
      * @var array
      */
     protected $fillable = [
-        'image_url', 'recipe_id' ,
+        'img_url', 'recipe_id' ,
     ];
 
     public function recipe(){

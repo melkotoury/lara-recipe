@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
+use App\User;
 $currentPath= Route::getFacadeRoot()->current()->uri();
 //echo $currentPath;
 ?>
@@ -104,10 +105,15 @@ $currentPath= Route::getFacadeRoot()->current()->uri();
 -->
 
             @auth
+				<?php
+
+                $id = Auth::user()->id;
+                $currentuser = User::find($id);
+				?>
 			<li>
            <a href="#">
-         <img src="{{asset('images/author-photo.png')}}" alt="" class="img img-responsive img-circle nav-pp">
-           <span class="profile-name-nav">Jane Doe</span>
+         <img src="{{asset('storage/images/profile_pic/'.$currentuser->profile_pic)}}" alt="" class="img img-responsive img-circle nav-pp">
+           <span class="profile-name-nav">{{$currentuser->name}}</span>
             </a>
 			    <ul>
                     <li><a href="{{url('my_recipes')}}">My Recipes</a></li>

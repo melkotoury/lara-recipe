@@ -81,9 +81,9 @@ class UsersTableSeeder extends Seeder
                 'name' => $female_names[$i],
                 'email' => $female_emails[$i],
                 'password' => bcrypt('123456'),
-                'gender' => 'male',
+                'gender' => 'female',
                 'role' => 'user',
-                'profile_pic' => 'men/' . ($i + 1) . '.jpg'
+                'profile_pic' => 'women/' . ($i + 1) . '.jpg'
             ]);
         }
         for ($i = 0; $i < 10; $i++) {
@@ -91,9 +91,9 @@ class UsersTableSeeder extends Seeder
                 'name' => $male_names[$i],
                 'email' => $male_emails[$i],
                 'password' => bcrypt('123456'),
-                'gender' => 'female',
+                'gender' => 'male',
                 'role' => 'user',
-                'profile_pic' => 'women/' . ($i + 1) . '.jpg'
+                'profile_pic' => 'men/' . ($i + 1) . '.jpg'
             ]);
 
         }

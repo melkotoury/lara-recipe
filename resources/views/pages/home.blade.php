@@ -9,7 +9,10 @@
              {{ session('status') }}
          </div>
      @endif
-
+<?php
+        use App\Review;
+        use App\RecipeAdditionalInfo;
+?>
     <div id="homeSlider" class="royalSlider rsDefaultInv">
 
         <!-- Slide #1 -->
@@ -205,13 +208,18 @@
                     <!-- Content -->
                     <div class="recipe-box-content">
                         <h3><a href="{{url('recipe/'.$recipe->id)}}">{{$recipe->title}}</a></h3>
+<?php
+                            $review = new Review();
+                            $review_avg = $review->reviews_avg($recipe->id);
+                            $recipe_prep_time  =  DB::table('recipe_additional_infos')->where('recipe_id',$recipe->id)->pluck('preparation_time');
 
-                        <div class="rating five-stars">
+?>
+                        <div class="rating  {{$review_avg}}">
                             <div class="star-rating"></div>
                             <div class="star-bg"></div>
                         </div>
 
-                        <div class="recipe-meta"><i class="fa fa-clock-o"></i> 30 min</div>
+                        <div class="recipe-meta"><i class="fa fa-clock-o"></i> {{$recipe_prep_time}} min</div>
 
                         <div class="clearfix"></div>
                     </div>

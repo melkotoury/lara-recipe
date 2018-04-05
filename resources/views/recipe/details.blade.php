@@ -1,7 +1,44 @@
 @extends('shared.master')
 
+
 @section('content')
     {{--// Details Recipe page content here--}}
+    <?php
+//    dd($recipe);
+//    dd($recipe_additional_info);
+//    dd($recipe_image);
+//    dd($recipe_medical_condition);
+//    dd($recipe_allergen);
+//    dd($recipe_nutrition_fact);
+//    dd($recipe_review);
+//    dd($recipe_ingredient);
+    use App\Recipe;
+    use App\RecipeAdditionalInfo;
+    use App\RecipeImage;
+    use App\RecipeMedicalCondition;
+    use App\RecipeAllergen;
+    use App\RecipeNutritionFact;
+    use App\Review;
+    use App\RecipeIngredient;
+    use Illuminate\Support\Facades\DB;
+
+
+    $review = new Review();
+    $review_count = $review->reviews_count($recipe->id);
+    $review_avg = $review->reviews_avg($recipe->id);
+    $recipe_prep_time  =  DB::table('recipe_additional_infos')->where('recipe_id',$recipe->id)->pluck('preparation_time');
+
+    $my_recommend_recipe = new Recipe();
+    foreach ($recipe_allergen as $recipeAllergen) {
+       $my_recommend_recipe_allergens = $my_recommend_recipe->recommend_recipe_allergens($recipeAllergen->name);
+    }
+    foreach ($recipe_medical_condition as $recipeMedicalCondition) {
+        $my_recommend_recipe_medical_condition = $my_recommend_recipe->recommend_recipe_medical_conditions($recipeMedicalCondition->name);
+    }
+        $my_recommended_recipe_all = array_unique(array_merge($my_recommend_recipe_allergens,$my_recommend_recipe_medical_condition),SORT_REGULAR);
+        $my_recommended_recipe_three = array_slice($my_recommended_recipe_all,0,3);
+
+    ?>
 
 
     <!-- Recipe Background -->
@@ -21,30 +58,40 @@
                 <!-- Header -->
                 <section class="recipe-header">
                     <div class="title-alignment">
-                        <h2>Chunky Beef Stew</h2>
-                        <div class="rating five-stars">
+                        <h2>{{$recipe->title}}</h2>
+                        <div class="rating {{$review_avg}}">
                             <div class="star-rating"></div>
                             <div class="star-bg"></div>
                         </div>
-                        <span><a href="#reviews">(4 reviews)</a></span>
+                        <span><a href="#reviews">({{$review_count}} reviews)</a></span>
                     </div>
                 </section>
 
 
                 <!-- Slider -->
                 <div class="recipeSlider rsDefault">
-                    <img itemprop="image" class="rsImg" src="{{asset('images/recipePhoto-01.jpg')}}" alt="" />
-                    <img itemprop="image" class="rsImg" src="{{asset('images/recipePhoto-02.jpg')}}" alt="" />
+                    @foreach($recipe_image as $img)
+                        <img itemprop="image" class="rsImg" src="{{asset('storage/images/recipes/'.$img->img_url)}}" alt="" />
+                    @endforeach
                 </div>
 
 
                 <!-- Details -->
                 <section class="recipe-details" itemprop="nutrition">
                     <ul>
-                        <li>Serves: <strong itemprop="recipeYield">4 people</strong></li>
-                        <li>Prep Time: <strong itemprop="prepTime">30 min</strong></li>
-                        <li>Cooking: <strong itemprop="cookTime">2 hours</strong></li>
-                        <li>Calories: <strong itemprop="calories">632 kcal</strong></li>
+                        <li>Prep Time: <strong itemprop="prepTime">{{$recipe_additional_info->preparation_time}} min</strong></li>
+                        <li>Cooking Time: <strong itemprop="cookTime">{{$recipe_additional_info->cooking_time}} min</strong></li>
+                        <li>Calories: <strong itemprop="calories">{{$recipe_nutrition_fact->calories}} kcal</strong></li>
+                        <li>Medical Conditions: <strong itemprop="medicalCondition">
+                                @foreach($recipe_medical_condition as $recipeMedicalCondition)
+                                    ({{$recipeMedicalCondition->name}})
+                                @endforeach
+                            </strong></li>
+                        <li>Allergens: <strong itemprop="allergens">
+                                @foreach($recipe_allergen as $recipeAllergen)
+                                    ({{$recipeAllergen->name}})
+                                @endforeach
+                            </strong></li>
                     </ul>
                     <a href="#" class="print"><i class="fa fa-print"></i> Print</a>
                     <div class="clearfix"></div>
@@ -52,66 +99,28 @@
 
 
                 <!-- Text -->
-                <p itemprop="description">This is a very basic beef stew. It’s easy, delicious and inexpensive to make. While there are hundreds of variations of this traditional recipe, it’s hard to improve on this version’s savory and comforting goodness.</p>
+                <p itemprop="description">{{$recipe->summary}}</p>
 
 
                 <!-- Ingredients -->
                 <h3>Ingredients</h3>
                 <ul class="ingredients">
-                    <li>
-                        <input id="check-1" type="checkbox" name="check" value="check-1">
-                        <label itemprop="ingredients" for="check-1">2 pounds cubed beef stew meat</label>
-                    </li>
+                    @for($i=0;$i<sizeof($recipe_ingredient);$i++)
+                        <li>
+                            <input id="check-{{$i+1}}" type="checkbox" name="check" value="check-{{$i+1}}">
+                            <label itemprop="ingredients" for="check-{{$i+1}}">{{$recipe_ingredient[$i]->name}}</label>
+                        </li>
+                    @endfor
 
-                    <li>
-                        <input id="check-2" type="checkbox" name="check" value="check-2">
-                        <label itemprop="ingredients" for="check-2">3 tablespoons vegetable oil</label>
-                    </li>
-
-                    <li>
-                        <input id="check-3" type="checkbox" name="check" value="check-3">
-                        <label itemprop="ingredients" for="check-3">4 cubes beef bouillon, crumbled</label>
-                    </li>
-
-                    <li>
-                        <input id="check-4" type="checkbox" name="check" value="check-4">
-                        <label itemprop="ingredients" for="check-4">1 large onion, chopped</label>
-                    </li>
-
-                    <li>
-                        <input id="check-5" type="checkbox" name="check" value="check-5">
-                        <label itemprop="ingredients" for="check-5">1 teaspoon dried rosemary</label>
-                    </li>
-
-                    <li>
-                        <input id="check-6" type="checkbox" name="check" value="check-6">
-                        <label itemprop="ingredients" for="check-6">1/2 teaspoon ground black pepper</label>
-                    </li>
-
-                    <li>
-                        <input id="check-7" type="checkbox" name="check" value="check-7">
-                        <label itemprop="ingredients" for="check-7">3 large potatoes, peeled and cubed </label>
-                    </li>
-
-                    <li>
-                        <input id="check-8" type="checkbox" name="check" value="check-8">
-                        <label itemprop="ingredients" for="check-8">4 carrots, cut into 1 inch pieces</label>
-                    </li>
-
-                    <li>
-                        <input id="check-9" type="checkbox" name="check" value="check-9">
-                        <label itemprop="ingredients" for="check-9">4 stalks celery, cut into 1 inch pieces</label>
-                    </li>
                 </ul>
 
 
                 <!-- Directions -->
                 <h3>Directions</h3>
                 <ol class="directions" itemprop="recipeInstructions">
-                    <li >In a Dutch oven, heat oil over medium heat until hot, but not smoking. Pat the meat dry with paper towels and brown in batches, transferring the meat with a slotted spoon to a bowl as they are done.</li>
-                    <li>In the fat remaining in the pot, cook the onions until softened, about 5 minutes. </li>
-                    <li>Return meat to the pot with any juices in the bowl and add the tomatoes with juice, chiles, beer, beef broth, oregano, cumin, and Worcestershire sauce. Season with salt and pepper to taste.</li>
-                    <li>Bring to a boil and reduce heat. Simmer, partially covered, for 2 1/2 hours or until meat is tender.</li>
+                    @for($i=0;$i<sizeof($recipe_direction);$i++)
+                    <li >{{$recipe_direction[$i]->name}}</li>
+                    @endfor
                 </ol>
 
 
@@ -144,12 +153,18 @@
 
                 <div class="related-posts">
                     <!-- Recipe #1 -->
+                    @foreach($my_recommended_recipe_three as $recommended_recipe_id)
+                        <?php
+                            $recommended_recipe = Recipe::find($recommended_recipe_id);
+                            $recommended_recipe_img = RecipeImage::where('recipe_id',$recommended_recipe_id)->first();
+                            $recommended_recipe_review = $review->reviews_avg($recipe->id);
+                        ?>
                     <div class="four recipe-box columns">
 
                         <!-- Thumbnail -->
                         <div class="thumbnail-holder">
-                            <a href="#">
-                                <img src="{{asset('images/recipeThumb-01a.jpg')}}" alt=""/>
+                            <a href="{{url('/recipe/'.$recommended_recipe_id)}}">
+                                <img src="{{asset('storage/images/recipes/'.$recommended_recipe_img->img_url)}}" alt=""/>
                                 <div class="hover-cover"></div>
                                 <div class="hover-icon">View Recipe</div>
                             </a>
@@ -157,9 +172,9 @@
 
                         <!-- Content -->
                         <div class="recipe-box-content">
-                            <h3><a href="#">Mexican Grilled Corn Recipe</a></h3>
+                            <h3><a href="{{url('/recipe/'.$recommended_recipe_id)}}">{{$recommended_recipe->title}}</a></h3>
 
-                            <div class="rating five-stars">
+                            <div class="rating {{$recommended_recipe_review}}">
                                 <div class="star-rating"></div>
                                 <div class="star-bg"></div>
                             </div>
@@ -169,60 +184,8 @@
                             <div class="clearfix"></div>
                         </div>
                     </div>
+                    @endforeach
 
-                    <!-- Recipe #2 -->
-                    <div class="four recipe-box columns">
-
-                        <!-- Thumbnail -->
-                        <div class="thumbnail-holder">
-                            <a href="#">
-                                <img src="{{asset('images/recipeThumb-07a.jpg')}}" alt=""/>
-                                <div class="hover-cover"></div>
-                                <div class="hover-icon">View Recipe</div>
-                            </a>
-                        </div>
-
-                        <!-- Content -->
-                        <div class="recipe-box-content">
-                            <h3><a href="#">Roast Chicken With Lemon Gravy</a></h3>
-
-                            <div class="rating five-stars">
-                                <div class="star-rating"></div>
-                                <div class="star-bg"></div>
-                            </div>
-
-                            <div class="recipe-meta"><i class="fa fa-clock-o"></i> 1 hr 20 min</div>
-
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                    <!-- Recipe #3 -->
-                    <div class="four recipe-box columns">
-
-                        <!-- Thumbnail -->
-                        <div class="thumbnail-holder">
-                            <a href="#">
-                                <img src="{{asset('images/recipeThumb-03a.jpg')}}" alt=""/>
-                                <div class="hover-cover"></div>
-                                <div class="hover-icon">View Recipe</div>
-                            </a>
-                        </div>
-
-                        <!-- Content -->
-                        <div class="recipe-box-content">
-                            <h3><a href="#">Thai Yellow Curry Chicken</a></h3>
-
-                            <div class="rating five-stars">
-                                <div class="star-rating"></div>
-                                <div class="star-bg"></div>
-                            </div>
-
-                            <div class="recipe-meta"><i class="fa fa-clock-o"></i> 45 min</div>
-
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
                 </div>
                 <div class="clearfix"></div>
 

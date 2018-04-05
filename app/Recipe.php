@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Review;
 
 class Recipe extends Model
 {
@@ -62,6 +63,21 @@ class Recipe extends Model
             ->pluck('recipe_id')->toArray();
 
         return array_unique($recommend_recipes_medical_conditions, SORT_REGULAR);
+
+
+    }
+
+    public function popular_recipes(){
+        $recipes = Recipe::all();
+        foreach ($recipes as $recipe){
+            $review_recipes_avg = Review::where('recipe_id',$recipe->id)
+                ->pluck('review_stars')
+                ->avg();
+            if ($review_recipes_avg >= 3){
+                return $recipe->id;
+            }
+
+        }
 
 
     }

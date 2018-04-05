@@ -1,6 +1,20 @@
 @extends('shared.master')
 
+<?php
+use App\Recipe;
+use App\User;
+use App\RecipeAdditionalInfo;
+use App\RecipeImage;
+use App\RecipeMedicalCondition;
+use App\RecipeAllergen;
+use App\RecipeNutritionFact;
+use App\Review;
+use App\RecipeIngredient;
+use Illuminate\Support\Facades\DB;
 
+
+
+?>
 @section('content')
     {{--// Details Recipe page content here--}}
     <?php
@@ -12,15 +26,7 @@
 //    dd($recipe_nutrition_fact);
 //    dd($recipe_review);
 //    dd($recipe_ingredient);
-    use App\Recipe;
-    use App\RecipeAdditionalInfo;
-    use App\RecipeImage;
-    use App\RecipeMedicalCondition;
-    use App\RecipeAllergen;
-    use App\RecipeNutritionFact;
-    use App\Review;
-    use App\RecipeIngredient;
-    use Illuminate\Support\Facades\DB;
+
 
 
     $review = new Review();
@@ -195,68 +201,40 @@
 
                 <!-- Comments
                 ================================================== -->
-                <h3 class="headline">Reviews <span class="comments-amount">(4)</span></h3><span class="line"></span><div class="clearfix"></div>
+                <h3 class="headline">Reviews <span class="comments-amount">({{$review_count}})</span></h3><span class="line"></span><div class="clearfix"></div>
 
                 <!-- Reviews -->
                 <section class="comments" id="reviews">
 
                     <ul>
-                        <li>
-                            <div class="avatar"><img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" /></div>
-                            <div class="comment-content"><div class="arrow-comment"></div>
-                                <div class="comment-by"><strong>John Doe</strong><span class="date">7th, October 2014</span>
-                                    <a href="#" class="reply"><i class="fa fa-reply"></i> Reply</a>
-                                </div>
-                                <p>Maecenas dignissim euismod nunc, in commodo est luctus eget. Proin in nunc laoreet justo volutpat blandit enim. Sem felis, ullamcorper vel aliquam non, varius eget just.</p>
-                                <div class="rating five-stars">
-                                    <div class="star-rating"></div>
-                                    <div class="star-bg"></div>
-                                </div>
-                            </div>
+                        @foreach($recipe_review as $recipeReview)
+                            <?php
+                                $user_id = $recipeReview->user_id;
+                                $user = User::find($user_id);
+                                $user_review = new Review();
+                                $review_stars = $user_review->review_stars($user_id,$recipeReview->recipe_id);
 
-                            <!-- Second Level -->
-                            <ul>
-                                <li>
-                                    <div class="avatar"><img src="{{asset('images/author-photo.png')}}" alt="" /></div>
-                                    <div class="comment-content"><div class="arrow-comment"></div>
-                                        <div class="comment-by"><strong>Sandra Fortin</strong><span class="date">7th, October 2014</span>
-                                            <a href="#" class="reply"><i class="fa fa-reply"></i> Reply</a>
-                                        </div>
-                                        <p>Donec porttitor tortor sit amet tortor egestas, id suscipit magna cursus. Nam facilisis, mi vel elementum porttitor, sapien magna posuere lorem, sed consectetur.</p>
+
+                            ?>
+
+                            <li>
+                                <div class="avatar"><img src="{{asset('storage/images/profile_pic/'.$user->profile_pic)}}" alt="" /></div>
+                                <div class="comment-content"><div class="arrow-comment"></div>
+                                    <div class="comment-by"><strong>{{$user->name}}</strong><span class="date">{{$recipeReview->created_at}}</span>
+                                        {{--<a href="#" class="reply"><i class="fa fa-reply"></i> Reply</a>--}}
                                     </div>
-                                </li>
-                            </ul>
-
-                        </li>
-
-                        <li>
-                            <div class="avatar"><img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" /></div>
-                            <div class="comment-content"><div class="arrow-comment"></div>
-                                <div class="comment-by"><strong>Kathy Brown</strong><span class="date">12th, October 2014</span>
-                                    <a href="#" class="reply"><i class="fa fa-reply"></i> Reply</a>
+                                    <p>{{$recipeReview->review_message}}</p>
+                                    <div class="rating {{$review_stars}}">
+                                        <div class="star-rating"></div>
+                                        <div class="star-bg"></div>
+                                    </div>
                                 </div>
-                                <p>Morbi velit eros, sagittis in facilisis non, rhoncus et erat. Nam posuere tristique sem, eu ultricies tortor imperdiet vitae. Curabitur lacinia neque non metus</p>
-                                <div class="rating ive-stars">
-                                    <div class="star-rating"></div>
-                                    <div class="star-bg"></div>
-                                </div>
-                            </div>
-                        </li>
 
-                        <li>
-                            <div class="avatar"><img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" /> </div>
-                            <div class="comment-content"><div class="arrow-comment"></div>
-                                <div class="comment-by"><strong>John Doe</strong><span class="date">15th, October 2014</span>
-                                    <a href="#" class="reply"><i class="fa fa-reply"></i> Reply</a>
-                                </div>
-                                <p>Commodo est luctus eget. Proin in nunc laoreet justo volutpat blandit enim. Sem felis, ullamcorper vel aliquam non, varius eget justo. Duis quis nunc tellus sollicitudin mauris.</p>
-                                <div class="rating four-stars">
-                                    <div class="star-rating"></div>
-                                    <div class="star-bg"></div>
-                                </div>
-                            </div>
 
-                        </li>
+                            </li>
+                        @endforeach
+
+
                     </ul>
 
                 </section>
@@ -327,68 +305,79 @@
             </div>
 
 
+            @auth
+                <?php
+
+                $id = Auth::user()->id;
+                $currentuser = User::find($id);
+                $user_allergens = \App\UserAllergen::where('user_id',$id)->pluck('name');
+                $user_medical_condition = \App\UserMedicalCondition::where('user_id',$id)->pluck('name');
+                ?>
             <!-- Author Box -->
             <div class="widget">
                 <div class="author-box">
-                    <span class="title">Author</span>
-                    <span class="name">Sandra <br> Fortin</span>
-                    <span class="contact"><a href="http://www.vasterad.com/cdn-cgi/l/email-protection#3546545b51475475565d5a421b565a58"><span class="__cf_email__" data-cfemail="0f7c6e616b7d6e4f6c676078216c6062">[email&#160;protected]</span></a></span>
-                    <img src="{{asset('images/author-photo.png')}}" alt="">
-                    <p>I'm Sandra and this is where I share my stuff. I am madly in love with food. You will find a balance of healthy recipes, comfort food and indulgent desserts.</p>
+                    <span class="title">Hello</span>
+                    <span class="name">{{$currentuser->name}}</span>
+                    <span class="contact"><a href="">{{$currentuser->email}}</a></span>
+                    <img src="{{asset('storage/images/profile_pic/'.$currentuser->profile_pic)}}" alt="">
+                    <p><strong>Allergen Preference:</strong></p>
+                    <p>
+                        @foreach($user_allergens as $userAllergen)
+                            ({{$userAllergen}})
+                        @endforeach
+                    </p>
+                    <p><strong>Medical Condition Preference:</strong></p>
+                    <p>
+                        @foreach($user_medical_condition as $userMedicalCondition)
+                            ({{$userMedicalCondition}})
+                        @endforeach
+                    </p>
                 </div>
             </div>
+            @endauth
 
-
-            <!-- Popular Recipes -->
+        <!-- Popular Recipes -->
             <div class="widget">
                 <h4 class="headline">Popular Recipes</h4>
                 <span class="line margin-bottom-30"></span>
                 <div class="clearfix"></div>
+<?php
+$popular_recipes_all = Recipe::all();
+foreach ($popular_recipes_all as $popular_recipe_one){
+    $review_recipes_avg = Review::where('recipe_id',$popular_recipe_one->id)
+        ->pluck('review_stars')
+        ->avg();
+    if ($review_recipes_avg >= 3){
+        $popular_recipe_img = RecipeImage::where('recipe_id',$popular_recipe_one->id)->first();
+        $popular_recipe_review = $review->reviews_avg($popular_recipe_one->id);
 
-                <!-- Recipe #1 -->
-                <a href="#" class="featured-recipe">
-                    <img src="{{asset('images/featuredRecipe-01.jpg')}}" alt="">
+        ?>
+        <!-- Recipe #1 -->
+            <a href="{{url('/recipe/'.$popular_recipe_one->id)}}" class="featured-recipe">
+                <img src="{{asset('storage/images/recipes/'.$popular_recipe_img->img_url)}}" alt="">
 
-                    <div class="featured-recipe-content">
-                        <h4>Choclate Cake With Green Tea Cream</h4>
+                <div class="featured-recipe-content">
+                    <h4>{{$popular_recipe_one->title}}</h4>
 
-                        <div class="rating five-stars">
-                            <div class="star-rating"></div>
-                            <div class="star-bg"></div>
-                        </div>
+                    <div class="rating {{$popular_recipe_review}}">
+                        <div class="star-rating"></div>
+                        <div class="star-bg"></div>
                     </div>
-                    <div class="post-icon"></div>
-                </a>
+                </div>
+                <div class="post-icon"></div>
+            </a>
+            <?php
+    }
 
-                <!-- Recipe #2 -->
-                <a href="#" class="featured-recipe">
-                    <img src="{{asset('images/featuredRecipe-02.jpg')}}" alt="">
+}
+?>
 
-                    <div class="featured-recipe-content">
-                        <h4>Mexican Grilled Corn Recipe</h4>
 
-                        <div class="rating five-stars">
-                            <div class="star-rating"></div>
-                            <div class="star-bg"></div>
-                        </div>
-                    </div>
-                    <div class="post-icon"></div>
-                </a>
 
-                <!-- Recipe #3 -->
-                <a href="#" class="featured-recipe">
-                    <img src="{{asset('images/featuredRecipe-03.jpg')}}" alt="">
 
-                    <div class="featured-recipe-content">
-                        <h4>Pollo Borracho With Homemade Tortillas</h4>
 
-                        <div class="rating five-stars">
-                            <div class="star-rating"></div>
-                            <div class="star-bg"></div>
-                        </div>
-                    </div>
-                    <div class="post-icon"></div>
-                </a>
+
+
 
                 <div class="clearfix"></div>
             </div>

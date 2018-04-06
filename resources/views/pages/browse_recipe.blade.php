@@ -1,3 +1,10 @@
+<?php
+use App\Recipe;
+use App\RecipeImage;
+use App\RecipeAdditionalInfo;
+use App\Review;
+
+?>
 @extends('shared.master')
 
 @section('content')
@@ -230,29 +237,7 @@
                         <div class="clearfix"></div>
 
 
-                        <!-- Choose Level -->
-                        <div class="select">
-                            <label>Choose level</label>
-                            <select data-placeholder="Choose level" class="chosen-select">
-                                <option value="1">All</option>
-                                <option value="2">Easy</option>
-                                <option value="3">Medium</option>
-                                <option value="4">Hard</option>
-                                <option value="5">Master</option>
-                            </select>
-                        </div>
 
-                        <!-- Choose serving -->
-                        <div class="select">
-                            <label>Choose serving</label>
-                            <select data-placeholder="Choose level" class="chosen-select">
-                                <option value="1">All</option>
-                                <option value="2">for 1 person</option>
-                                <option value="3">for 2 people</option>
-                                <option value="5">for 4 people</option>
-                                <option value="6">for family</option>
-                            </select>
-                        </div>
 
                         <!-- Choose time needed -->
                         <div class="select">
@@ -298,13 +283,23 @@
         <!-- Isotope -->
         <div class="isotope">
 
+            @foreach($recipes as $recipe)
+
+                <?php
+                        $recipe_img = RecipeImage::where('recipe_id',$recipe->id)->first();
+                        $recipe_img_url = $recipe_img->img_url;
+                        $review = new Review();
+                        $review_recipe_avg = $review->reviews_avg($recipe->id);
+                        $recipe_addition_info = RecipeAdditionalInfo::where('recipe_id', $recipe->id)->first();
+                        $cooking_time = $recipe_addition_info->cooking_time;
+                ?>
             <!-- Recipe #1 -->
             <div class="four isotope-box columns">
 
                 <!-- Thumbnail -->
                 <div class="thumbnail-holder">
-                    <a href="recipe-page-1.html">
-                        <img src="images/recipeThumb-01.jpg" alt=""/>
+                    <a href="{{url('/recipe/'.$recipe->id)}}">
+                        <img src="{{asset('storage/images/recipes/'.$recipe_img_url)}}" alt=""/>
                         <div class="hover-cover"></div>
                         <div class="hover-icon">View Recipe</div>
                     </a>
@@ -312,231 +307,44 @@
 
                 <!-- Content -->
                 <div class="recipe-box-content">
-                    <h3><a href="recipe-page-1.html">Mexican Grilled <br> Corn Recipe</a></h3>
+                    <h3><a href="{{url('/recipe/'.$recipe->id)}}">{{$recipe->title}}</a></h3>
 
-                    <div class="rating five-stars">
+                    <div class="rating {{$review_recipe_avg}}">
                         <div class="star-rating"></div>
                         <div class="star-bg"></div>
                     </div>
 
-                    <div class="recipe-meta"><i class="fa fa-clock-o"></i> 30 min</div>
+                    <div class="recipe-meta"><i class="fa fa-clock-o"></i> {{$cooking_time}} min</div>
 
                     <div class="clearfix"></div>
                 </div>
             </div>
 
-            <!-- Recipe #2 -->
-            <div class="four isotope-box columns">
-
-                <!-- Thumbnail -->
-                <div class="thumbnail-holder">
-                    <a href="recipe-page-1.html">
-                        <img src="images/recipeThumb-02.jpg" alt=""/>
-                        <div class="hover-cover"></div>
-                        <div class="hover-icon">View Recipe</div>
-                    </a>
-                </div>
-
-                <!-- Content -->
-                <div class="recipe-box-content">
-                    <h3><a href="recipe-page-1.html">Choclate Cake With Green Tea Cream</a></h3>
-
-                    <div class="rating four-stars">
-                        <div class="star-rating"></div>
-                        <div class="star-bg"></div>
-                    </div>
-
-                    <div class="recipe-meta"><i class="fa fa-clock-o"></i> 1 hr 30 min</div>
-
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-
-            <!-- Recipe #3 -->
-            <div class="four isotope-box columns">
-
-                <!-- Thumbnail -->
-                <div class="thumbnail-holder">
-                    <a href="recipe-page-1.html">
-                        <img src="images/recipeThumb-03.jpg" alt=""/>
-                        <div class="hover-cover"></div>
-                        <div class="hover-icon">View Recipe</div>
-                    </a>
-                </div>
-
-                <!-- Content -->
-                <div class="recipe-box-content">
-                    <h3><a href="recipe-page-1.html">Thai Yellow Curry Chicken</a></h3>
-
-                    <div class="rating five-stars">
-                        <div class="star-rating"></div>
-                        <div class="star-bg"></div>
-                    </div>
-
-                    <div class="recipe-meta"><i class="fa fa-clock-o"></i> 45 min</div>
-
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-
-            <!-- Recipe #4 -->
-            <div class="four isotope-box columns">
-
-                <!-- Thumbnail -->
-                <div class="thumbnail-holder">
-                    <a href="recipe-page-1.html">
-                        <img src="images/recipeThumb-04.jpg" alt=""/>
-                        <div class="hover-cover"></div>
-                        <div class="hover-icon">View Recipe</div>
-                    </a>
-                </div>
-
-                <!-- Content -->
-                <div class="recipe-box-content">
-                    <h3><a href="recipe-page-1.html">Avocado Melon Salad With Lime Vinaigrette</a></h3>
-
-                    <div class="rating four-stars">
-                        <div class="star-rating"></div>
-                        <div class="star-bg"></div>
-                    </div>
-
-                    <div class="recipe-meta"><i class="fa fa-clock-o"></i> 15 min</div>
-
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-
-            <!-- Recipe #5 -->
-            <div class="four isotope-box columns">
-
-                <!-- Thumbnail -->
-                <div class="thumbnail-holder">
-                    <a href="recipe-page-1.html">
-                        <img src="images/recipeThumb-05.jpg" alt=""/>
-                        <div class="hover-cover"></div>
-                        <div class="hover-icon">View Recipe</div>
-                    </a>
-                </div>
-
-                <!-- Content -->
-                <div class="recipe-box-content">
-                    <h3><a href="recipe-page-1.html">Pollo Borracho With Homemade Tortillas</a></h3>
-
-                    <div class="rating four-stars">
-                        <div class="star-rating"></div>
-                        <div class="star-bg"></div>
-                    </div>
-
-                    <div class="recipe-meta"><i class="fa fa-clock-o"></i> 30 min</div>
-
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-
-            <!-- Recipe #6 -->
-            <div class="four isotope-box columns">
-
-                <!-- Thumbnail -->
-                <div class="thumbnail-holder">
-                    <a href="recipe-page-1.html">
-                        <img src="images/recipeThumb-06.jpg" alt=""/>
-                        <div class="hover-cover"></div>
-                        <div class="hover-icon">View Recipe</div>
-                    </a>
-                </div>
-
-                <!-- Content -->
-                <div class="recipe-box-content">
-                    <h3><a href="recipe-page-1.html">Sweet Chilli and Lime Chicken Wings</a></h3>
-
-                    <div class="rating five-stars">
-                        <div class="star-rating"></div>
-                        <div class="star-bg"></div>
-                    </div>
-
-                    <div class="recipe-meta"><i class="fa fa-clock-o"></i> 45 min</div>
-
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-
-            <!-- Recipe #7 -->
-            <div class="four isotope-box columns">
-
-                <!-- Thumbnail -->
-                <div class="thumbnail-holder">
-                    <a href="recipe-page-1.html">
-                        <img src="images/recipeThumb-07.jpg" alt=""/>
-                        <div class="hover-cover"></div>
-                        <div class="hover-icon">View Recipe</div>
-                    </a>
-                </div>
-
-                <!-- Content -->
-                <div class="recipe-box-content">
-                    <h3><a href="recipe-page-1.html">Roast Chicken With Lemon Gravy</a></h3>
-
-                    <div class="rating five-stars">
-                        <div class="star-rating"></div>
-                        <div class="star-bg"></div>
-                    </div>
-
-                    <div class="recipe-meta"><i class="fa fa-clock-o"></i> 1 hr 20 min</div>
-
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-
-            <!-- Recipe #8 -->
-            <div class="four isotope-box columns">
-
-                <!-- Thumbnail -->
-                <div class="thumbnail-holder">
-                    <a href="recipe-page-1.html">
-                        <img src="images/recipeThumb-08.jpg" alt=""/>
-                        <div class="hover-cover"></div>
-                        <div class="hover-icon">View Recipe</div>
-                    </a>
-                </div>
-
-                <!-- Content -->
-                <div class="recipe-box-content">
-                    <h3><a href="recipe-page-1.html">Farmhouse Vegetable And Barley Soup</a></h3>
-
-                    <div class="rating four-stars">
-                        <div class="star-rating"></div>
-                        <div class="star-bg"></div>
-                    </div>
-
-                    <div class="recipe-meta"><i class="fa fa-clock-o"></i> 1 hr 30 min</div>
-
-                    <div class="clearfix"></div>
-                </div>
-            </div>
+            @endforeach
 
         </div>
         <div class="clearfix"></div>
 
 
         <!-- Pagination -->
-        <div class="sixteen columns">
-            <div class="pagination-container">
-                <nav class="pagination">
-                    <ul>
-                        <li><a href="#" class="current-page">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                    </ul>
-                </nav>
+        {{--<div class="sixteen columns">--}}
+            {{--<div class="pagination-container">--}}
+                {{--<nav class="pagination">--}}
+                    {{--<ul>--}}
+                        {{--<li><a href="#" class="current-page">1</a></li>--}}
+                        {{--<li><a href="#">2</a></li>--}}
+                        {{--<li><a href="#">3</a></li>--}}
+                    {{--</ul>--}}
+                {{--</nav>--}}
 
-                <nav class="pagination-next-prev">
-                    <ul>
-                        <li><a href="#" class="prev"></a></li>
-                        <li><a href="#" class="next"></a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
+                {{--<nav class="pagination-next-prev">--}}
+                    {{--<ul>--}}
+                        {{--<li><a href="#" class="prev"></a></li>--}}
+                        {{--<li><a href="#" class="next"></a></li>--}}
+                    {{--</ul>--}}
+                {{--</nav>--}}
+            {{--</div>--}}
+        {{--</div>--}}
 
     </div>
 

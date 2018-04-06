@@ -41,7 +41,8 @@ class PagesController extends Controller
     }
 
     public function browse_recipe(){
-        return view('pages.browse_recipe');
+        $recipes = Recipe::all();
+        return view('pages.browse_recipe',['recipes' => $recipes]);
     }
     public function recommended_recipe(){
         return view('pages.recommended_recipe');

@@ -1,3 +1,20 @@
+<?php
+use App\Recipe;
+use App\User;
+use App\RecipeAdditionalInfo;
+use App\RecipeImage;
+use App\RecipeMedicalCondition;
+use App\RecipeAllergen;
+use App\RecipeNutritionFact;
+use App\Review;
+use App\RecipeIngredient;
+use Illuminate\Support\Facades\DB;
+
+$review = new Review();
+
+
+?>
+
 @extends('shared.master')
 
 @section('content')
@@ -9,10 +26,7 @@
              {{ session('status') }}
          </div>
      @endif
-<?php
-        use App\Review;
-        use App\RecipeAdditionalInfo;
-?>
+
     <div id="homeSlider" class="royalSlider rsDefaultInv">
 
         <!-- Slide #1 -->
@@ -252,82 +266,126 @@
             </div>
 
 
+        @auth
+            <?php
+
+            $id = Auth::user()->id;
+            $currentuser = User::find($id);
+            $user_allergens = \App\UserAllergen::where('user_id',$id)->pluck('name');
+            $user_medical_condition = \App\UserMedicalCondition::where('user_id',$id)->pluck('name');
+            ?>
             <!-- Author Box -->
-            <div class="widget">
-                <div class="author-box">
-                    <span class="title">Author</span>
-                    <span class="name">Sarah <br> Ashour</span>
-                    <span class="contact"><a href="mailto:sarahashour1995@hotmail.com">sarahashour1995@hotmail.com</a></span>
-                    <img src="images/author-photo.png" alt="">
-                    <p>I'm Sarah and this is where I share my stuff. I am madly in love with food. You will find a balance of healthy recipes, comfort food and indulgent desserts.</p>
+                <div class="widget">
+                    <div class="author-box">
+                        <span class="title">Hello</span>
+                        <span class="name">{{$currentuser->name}}</span>
+                        <span class="contact"><a href="">{{$currentuser->email}}</a></span>
+                        <img src="{{asset('storage/images/profile_pic/'.$currentuser->profile_pic)}}" alt="">
+                        <p><strong>Allergen Preference:</strong></p>
+                        <p>
+                            @foreach($user_allergens as $userAllergen)
+                                ({{$userAllergen}})
+                            @endforeach
+                        </p>
+                        <p><strong>Medical Condition Preference:</strong></p>
+                        <p>
+                            @foreach($user_medical_condition as $userMedicalCondition)
+                                ({{$userMedicalCondition}})
+                            @endforeach
+                        </p>
+                    </div>
                 </div>
+        @endauth
+
+        <!-- Popular Recipes -->
+            <div class="widget">
+                <h4 class="headline">Popular Recipes</h4>
+                <span class="line margin-bottom-30"></span>
+                <div class="clearfix"></div>
+            <?php
+            $popular_recipes_all = Recipe::all();
+            foreach ($popular_recipes_all as $popular_recipe_one){
+            $review_recipes_avg = Review::where('recipe_id',$popular_recipe_one->id)
+                ->pluck('review_stars')
+                ->avg();
+            if ($review_recipes_avg >= 3){
+            $popular_recipe_img = RecipeImage::where('recipe_id',$popular_recipe_one->id)->first();
+            $popular_recipe_review = $review->reviews_avg($popular_recipe_one->id);
+
+            ?>
+            <!-- Recipe #1 -->
+                <a href="{{url('/recipe/'.$popular_recipe_one->id)}}" class="featured-recipe">
+                    <img src="{{asset('storage/images/recipes/'.$popular_recipe_img->img_url)}}" alt="">
+
+                    <div class="featured-recipe-content">
+                        <h4>{{$popular_recipe_one->title}}</h4>
+
+                        <div class="rating {{$popular_recipe_review}}">
+                            <div class="star-rating"></div>
+                            <div class="star-bg"></div>
+                        </div>
+                    </div>
+                    <div class="post-icon"></div>
+                </a>
+                <?php
+                }
+
+                }
+                ?>
+
+
+
+
+
+
+
+
+                <div class="clearfix"></div>
             </div>
 
 
             <!-- Popular Recipes -->
             <div class="widget">
-                <h4 class="headline">Popular Recipes</h4>
+                <h4 class="headline">Share</h4>
                 <span class="line margin-bottom-30"></span>
                 <div class="clearfix"></div>
 
-                <!-- Recipe #1 -->
-                <a href="recipe-page-1.html" class="featured-recipe">
-                    <img src="images/featuredRecipe-01.jpg" alt="">
+                <ul class="share-buttons">
+                    <li class="facebook-share">
+                        <a href="#">
+                            <span class="counter">1,234</span>
+                            <span class="counted">Fans</span>
+                            <span class="action-button">Like</span>
+                        </a>
+                    </li>
 
-                    <div class="featured-recipe-content">
-                        <h4>Choclate Cake With Green Tea Cream</h4>
+                    <li class="twitter-share">
+                        <a href="#">
+                            <span class="counter">863</span>
+                            <span class="counted">Followers</span>
+                            <span class="action-button">Follow</span>
+                        </a>
+                    </li>
 
-                        <div class="rating five-stars">
-                            <div class="star-rating"></div>
-                            <div class="star-bg"></div>
-                        </div>
-                    </div>
-                    <div class="post-icon"></div>
-                </a>
-
-                <!-- Recipe #2 -->
-                <a href="recipe-page-1.html" class="featured-recipe">
-                    <img src="images/featuredRecipe-02.jpg" alt="">
-
-                    <div class="featured-recipe-content">
-                        <h4>Mexican Grilled Corn Recipe</h4>
-
-                        <div class="rating five-stars">
-                            <div class="star-rating"></div>
-                            <div class="star-bg"></div>
-                        </div>
-                    </div>
-                    <div class="post-icon"></div>
-                </a>
-
-                <!-- Recipe #3 -->
-                <a href="recipe-page-1.html" class="featured-recipe">
-                    <img src="images/featuredRecipe-03.jpg" alt="">
-
-                    <div class="featured-recipe-content">
-                        <h4>Pollo Borracho With Homemade Tortillas</h4>
-
-                        <div class="rating five-stars">
-                            <div class="star-rating"></div>
-                            <div class="star-bg"></div>
-                        </div>
-                    </div>
-                    <div class="post-icon"></div>
-                </a>
-
+                    <li class="google-plus-share">
+                        <a href="#">
+                            <span class="counter">902</span>
+                            <span class="counted">Followers</span>
+                            <span class="action-button">Follow</span>
+                        </a>
+                    </li>
+                </ul>
                 <div class="clearfix"></div>
             </div>
-
 
         </div>
 
 
     </div>
-    <!-- Container / End -->
-
-    <div class="margin-top-5"></div>
+     <!-- Container / End -->
 
 
-    </div>
-    <!-- Wrapper / End -->
+     </div>
+     <!-- Wrapper / End -->
+
 @endsection

@@ -21,8 +21,9 @@ class DatabaseSeeder extends Seeder
          $this->call(RecipeAdditionalInfoTableSeeder::class);
          $this->call(RecipeAllergensTableSeeder::class);
          $this->call(RecipeMedicalConditionsTableSeeder::class);
-        $this->call(RecipeImagesTableSeeder::class);
+         $this->call(RecipeImagesTableSeeder::class);
          $this->call(ReviewsTableSeeder::class);
+         $this->call(LikeTableSeeder::class);
 
     }
 }

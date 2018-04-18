@@ -209,6 +209,7 @@ $review = new Review();
 
                     <?php
                     $recipe_img = DB::table('recipe_images')->where('recipe_id',$recipe->id)->pluck('img_url')->first();
+
                     ?>
                     <!-- Thumbnail -->
                     <div class="thumbnail-holder">
@@ -222,6 +223,20 @@ $review = new Review();
                     <!-- Content -->
                     <div class="recipe-box-content">
                         <h3><a href="{{url('recipe/'.$recipe->id)}}">{{$recipe->title}}</a></h3>
+                        @auth
+                                <?php
+                                $id = Auth::user()->id;
+                                $currentuser = User::find($id);
+                                $user_allergens = \App\UserAllergen::where('user_id',$id)->pluck('name');
+                                $user_medical_condition = \App\UserMedicalCondition::where('user_id',$id)->pluck('name');
+                                $like_check = DB::table('likes')->where('user_id',$id)->where('recipe_id',$recipe->id)->pluck('like')->first();
+                                ?>
+                            @if($like_check)
+                                <span class="like"><i class="fa fa-heart"></i></span>
+                            @else
+                                <span class="like"><i class="fa fa-heart-o"></i></span>
+                            @endif
+                        @endauth
 <?php
                             $review = new Review();
                             $review_avg = $review->reviews_avg($recipe->id);
@@ -232,6 +247,8 @@ $review = new Review();
                             <div class="star-rating"></div>
                             <div class="star-bg"></div>
                         </div>
+
+
 
                         <div class="recipe-meta"><i class="fa fa-clock-o"></i> {{$recipe_prep_time}} min</div>
 
@@ -267,13 +284,7 @@ $review = new Review();
 
 
         @auth
-            <?php
 
-            $id = Auth::user()->id;
-            $currentuser = User::find($id);
-            $user_allergens = \App\UserAllergen::where('user_id',$id)->pluck('name');
-            $user_medical_condition = \App\UserMedicalCondition::where('user_id',$id)->pluck('name');
-            ?>
             <!-- Author Box -->
                 <div class="widget">
                     <div class="author-box">
@@ -324,6 +335,16 @@ $review = new Review();
                             <div class="star-rating"></div>
                             <div class="star-bg"></div>
                         </div>
+                        @auth
+                            <?php
+                            $like_check = DB::table('likes')->where('user_id',$id)->where('recipe_id',$recipe->id)->pluck('like')->first();
+                            ?>
+                            @if($like_check)
+                                <span class="like"><i class="fa fa-heart"></i></span>
+                            @else
+                                <span class="like"><i class="fa fa-heart-o"></i></span>
+                            @endif
+                        @endauth
                     </div>
                     <div class="post-icon"></div>
                 </a>

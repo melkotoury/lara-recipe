@@ -308,6 +308,17 @@ use App\Review;
                 <!-- Content -->
                 <div class="recipe-box-content">
                     <h3><a href="{{url('/recipe/'.$recipe->id)}}">{{$recipe->title}}</a></h3>
+                    @auth
+                        <?php
+                        $id = Auth::user()->id;
+                        $like_check = DB::table('likes')->where('user_id',$id)->where('recipe_id',$recipe->id)->pluck('like')->first();
+                        ?>
+                        @if($like_check)
+                            <span class="like"><i class="fa fa-heart"></i></span>
+                        @else
+                            <span class="like"><i class="fa fa-heart-o"></i></span>
+                        @endif
+                    @endauth
 
                     <div class="rating {{$review_recipe_avg}}">
                         <div class="star-rating"></div>

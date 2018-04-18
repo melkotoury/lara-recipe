@@ -363,6 +363,9 @@ foreach ($popular_recipes_all as $popular_recipe_one){
                         <div class="star-rating"></div>
                         <div class="star-bg"></div>
                     </div>
+                    @auth
+                        <span class="like"><i class="fa fa-heart"></i></span>
+                    @endauth
                 </div>
                 <div class="post-icon"></div>
             </a>

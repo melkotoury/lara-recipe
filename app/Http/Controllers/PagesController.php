@@ -10,6 +10,7 @@ use Auth;
 use App\UserAllergen;
 use App\UserMedicalCondition;
 use Illuminate\Http\Request;
+use App\Like;
 
 class PagesController extends Controller
 {
@@ -52,8 +53,20 @@ class PagesController extends Controller
     public function recommended_recipe(){
         $id = Auth::user()->id;
         $currentuser = User::find($id);
+        $user_like_recipe_ids = Like::where('user_id',$id)->where('like', 1)->pluck('recipe_id');
+
         $user_allergens = UserAllergen::where('user_id',$id)->pluck('name');
         $user_medical_conditions = UserMedicalCondition::where('user_id',$id)->pluck('name');
+
+        foreach ($user_like_recipe_ids as $user_like_recipe_id){
+            $recipe_likes_allergens = RecipeAllergen::where('recipe_id',$user_like_recipe_id)->pluck('name');
+            $common_recipe_allergens_based_on_likes = RecipeAllergen::where('name',$recipe_likes_allergens)->pluck('recipe_id')->toArray();
+        }
+
+        foreach ($user_like_recipe_ids as $user_like_recipe_id){
+            $recipe_likes_medical_conditions = RecipeMedicalCondition::where('recipe_id',$user_like_recipe_id)->pluck('name');
+            $common_recipe_medical_conditions_based_on_likes = RecipeMedicalCondition::where('name',$recipe_likes_medical_conditions)->pluck('recipe_id')->toArray();        }
+
 
         foreach ($user_allergens as $user_allergen){
             $common_allergen_recipes = RecipeAllergen::where('name',$user_allergen)->pluck('recipe_id')->toArray();
@@ -64,9 +77,11 @@ class PagesController extends Controller
         }
 
         $recipe_id = array_unique(array_merge($common_allergen_recipes,$common_medical_condition_recipes) , SORT_REGULAR);
+        $recipe_likes_id = array_unique(array_merge($common_recipe_allergens_based_on_likes,$common_recipe_medical_conditions_based_on_likes),SORT_REGULAR);
         return view('pages.recommended_recipe',
                         [
-                            'recipe_id' => $recipe_id
+                            'recipe_id' => $recipe_id,
+                            'recipe_likes_id' => $recipe_likes_id
 
                             ]);
     }

@@ -140,7 +140,7 @@ $user_medical_conditions = UserMedicalCondition::where('user_id',$id)->get();
 
         <!-- Headline -->
         <div class="sixteen columns">
-            <h3 class="headline">Because you loved </h3>
+            <h3 class="headline">Because of recipes you loved </h3>
             <span class="line margin-bottom-35"></span>
             <div class="clearfix"></div>
         </div>
@@ -150,7 +150,7 @@ $user_medical_conditions = UserMedicalCondition::where('user_id',$id)->get();
         <!-- Isotope -->
         <div class="isotope">
 
-        @foreach($recipe_id as $recipeId)
+        @foreach($recipe_likes_id as $recipeId)
 
             <?php
             $recipe = Recipe::find($recipeId);

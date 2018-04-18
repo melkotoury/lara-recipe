@@ -179,6 +179,17 @@ use Illuminate\Support\Facades\DB;
                         <!-- Content -->
                         <div class="recipe-box-content">
                             <h3><a href="{{url('/recipe/'.$recommended_recipe_id)}}">{{$recommended_recipe->title}}</a></h3>
+                            @auth
+                                <?php
+                                $id = Auth::user()->id;
+                                $like_check = DB::table('likes')->where('user_id',$id)->where('recipe_id',$recipe->id)->pluck('like')->first();
+                                ?>
+                                @if($like_check)
+                                    <span class="like"><i class="fa fa-heart"></i></span>
+                                @else
+                                    <span class="like"><i class="fa fa-heart-o"></i></span>
+                                @endif
+                            @endauth
 
                             <div class="rating {{$recommended_recipe_review}}">
                                 <div class="star-rating"></div>
@@ -364,7 +375,15 @@ foreach ($popular_recipes_all as $popular_recipe_one){
                         <div class="star-bg"></div>
                     </div>
                     @auth
-                        <span class="like"><i class="fa fa-heart"></i></span>
+                        <?php
+                        $id = Auth::user()->id;
+                        $like_check = DB::table('likes')->where('user_id',$id)->where('recipe_id',$recipe->id)->pluck('like')->first();
+                        ?>
+                        @if($like_check)
+                            <span class="like"><i class="fa fa-heart"></i></span>
+                        @else
+                            <span class="like"><i class="fa fa-heart-o"></i></span>
+                        @endif
                     @endauth
                 </div>
                 <div class="post-icon"></div>

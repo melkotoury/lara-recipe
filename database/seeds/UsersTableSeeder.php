@@ -19,6 +19,8 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('123456'),
             'gender' => 'female',
             'role' => 'admin',
+            'age' => 25,
+            'user_preference' => 'general',
             'profile_pic' => 'admin.jpg'
         ]);
 
@@ -81,6 +83,8 @@ class UsersTableSeeder extends Seeder
                 'email' => $female_emails[$i],
                 'password' => bcrypt('123456'),
                 'gender' => 'female',
+                'age' => $this->getRandomUserAge(),
+                'user_preference' => $this->getRandomUserPreference() == 0 ? 'on_diet' : 'active',
                 'role' => 'user',
                 'profile_pic' => 'women/' . ($i + 1) . '.jpg'
             ]);
@@ -91,10 +95,20 @@ class UsersTableSeeder extends Seeder
                 'email' => $male_emails[$i],
                 'password' => bcrypt('123456'),
                 'gender' => 'male',
+                'age' => $this->getRandomUserAge(),
+                'user_preference' => $this->getRandomUserPreference() == 0 ? 'on_diet' : 'active',
                 'role' => 'user',
                 'profile_pic' => 'men/' . ($i + 1) . '.jpg'
             ]);
 
         }
+    }
+
+    public function getRandomUserPreference(){
+        return rand(0,1);
+    }
+
+    public function getRandomUserAge(){
+        return rand(15,35);
     }
 }

@@ -19,6 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('gender');
+            $table->integer('age');
+            $table->enum('user_preference',['general', 'on_diet', 'active ']);
             $table->string('profile_pic');
             $table->enum('role',  ['user', 'admin']);
             $table->rememberToken();

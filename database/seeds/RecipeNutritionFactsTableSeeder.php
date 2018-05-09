@@ -14,33 +14,6 @@ class RecipeNutritionFactsTableSeeder extends Seeder
     public function run()
     {
 
-        $recipe2= array(
-
-        );
-        $recipe3 = array(
-
-        );
-        $recipe4 = array(
-
-        );
-        $recipe5 = array(
-
-        );
-        $recipe6 = array(
-
-        );
-        $recipe7 = array(
-
-        );
-        $recipe8 = array(
-
-        );
-        $recipe9 = array(
-
-        );
-        $recipe10 = array(
-
-        );
 
 
 

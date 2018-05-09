@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Recipe;
 use App\RecipeAllergen;
 use App\RecipeMedicalCondition;
+use App\RecipeNutritionFact;
 use App\Review;
 use App\User;
 use Auth;
@@ -11,6 +12,7 @@ use App\UserAllergen;
 use App\UserMedicalCondition;
 use Illuminate\Http\Request;
 use App\Like;
+use DB;
 
 class PagesController extends Controller
 {
@@ -54,6 +56,13 @@ class PagesController extends Controller
         $id = Auth::user()->id;
         $currentuser = User::find($id);
 
+        $user_preference = $currentuser->user_preference;
+
+
+        $recipe_based_on_user_preference_active = DB::table('recipe_nutrition_facts')->orderBy('protein','desc')->take(6)->pluck('recipe_id');
+        $recipe_based_on_user_preference_on_diet =  DB::table('recipe_nutrition_facts')->orderBy('fat', 'asc')->take(6)->pluck('recipe_id');
+
+
 
         //recipes current user likes
         $user_like_recipe_ids = Like::where('user_id',$id)->where('like', 1)->pluck('recipe_id');
@@ -92,9 +101,12 @@ class PagesController extends Controller
         $recipe_other_users_liked_id = array_unique($based_on_other_user_recipe_ids,SORT_REGULAR);
         return view('pages.recommended_recipe',
                         [
-                            'recipe_id' => $recipe_id,
-                            'recipe_likes_id' => $recipe_likes_id,
-                            'recipe_other_users_liked_id' => $recipe_other_users_liked_id
+                            'user_preference'                           => $user_preference,
+                            'recipe_id'                                 => $recipe_id,
+                            'recipe_likes_id'                           => $recipe_likes_id,
+                            'recipe_other_users_liked_id'               => $recipe_other_users_liked_id,
+                            'recipe_based_on_user_preference_active'    => $recipe_based_on_user_preference_active,
+                            'recipe_based_on_user_preference_on_diet'  =>  $recipe_based_on_user_preference_on_diet
 
                             ]);
     }

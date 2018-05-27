@@ -342,6 +342,78 @@ $user_medical_conditions = UserMedicalCondition::where('user_id',$id)->get();
                 </div>
 
             @endforeach
+        </div>
+
+            <div class="clearfix"></div>
+
+        @elseif($user_preference === 'vegetarian')
+            <!-- Headline -->
+                <div class="sixteen columns">
+                    <h3 class="headline">Based on your personal preference : {{$user_preference}}</h3>
+                    <span class="line margin-bottom-35"></span>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+
+
+                <!-- Isotope -->
+                <div class="isotope">
+
+                @foreach($recipe_based_on_user_preference_on_diet as $recipeId)
+
+                    <?php
+                    $recipe = Recipe::find($recipeId);
+                    $recipe_img = RecipeImage::where('recipe_id',$recipe->id)->first();
+                    $recipe_img_url = $recipe_img->img_url;
+                    $review = new Review();
+                    $review_recipe_avg = $review->reviews_avg($recipe->id);
+                    $recipe_addition_info = RecipeAdditionalInfo::where('recipe_id', $recipe->id)->first();
+                    $cooking_time = $recipe_addition_info->cooking_time;
+                    ?>
+                    <!-- Recipe #1 -->
+                        <div class="four isotope-box columns">
+
+                            <!-- Thumbnail -->
+                            <div class="thumbnail-holder">
+                                <a href="{{url('/recipe/'.$recipe->id)}}">
+                                    <img src="{{asset('storage/images/recipes/'.$recipe_img_url)}}" alt=""/>
+                                    <div class="hover-cover"></div>
+                                    <div class="hover-icon">View Recipe</div>
+                                </a>
+                            </div>
+
+                            <!-- Content -->
+                            <div class="recipe-box-content">
+                                <h3><a href="{{url('/recipe/'.$recipe->id)}}">{{$recipe->title}}</a></h3>
+                                @auth
+                                    <?php
+                                    $id = Auth::user()->id;
+                                    $like_check = DB::table('likes')->where('user_id',$id)->where('recipe_id',$recipe->id)->pluck('like')->first();
+                                    ?>
+                                    @if($like_check)
+                                        <span class="like"><i class="fa fa-heart"></i></span>
+                                    @else
+                                        <span class="like"><i class="fa fa-heart-o"></i></span>
+                                    @endif
+                                @endauth
+
+                                <div class="rating {{$review_recipe_avg}}">
+                                    <div class="star-rating"></div>
+                                    <div class="star-bg"></div>
+                                </div>
+
+                                <div class="recipe-meta"><i class="fa fa-clock-o"></i> {{$cooking_time}} min</div>
+
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+
+                @endforeach
+                </div>
+                    <div class="clearfix"></div>
+
+
+
             @elseif($user_preference === 'on_diet')
                 <!-- Headline -->
                     <div class="sixteen columns">

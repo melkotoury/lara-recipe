@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
             'gender' => 'female',
             'role' => 'admin',
             'age' => 25,
-            'user_preference' => 'general',
+            'user_preference' => 'active',
             'profile_pic' => 'admin.jpg'
         ]);
 
@@ -144,7 +144,7 @@ class UsersTableSeeder extends Seeder
                 'password' => bcrypt('123456'),
                 'gender' => 'female',
                 'age' => $this->getRandomUserAge(),
-                'user_preference' => $this->getRandomUserPreference() == 0 ? 'on_diet' : 'active',
+                'user_preference' => $this->getRandomUserPreferenceValue($this->getRandomUserPreference()),
                 'role' => 'user',
                 'profile_pic' => 'women/' . ($i + 1) . '.jpg'
             ]);
@@ -156,7 +156,7 @@ class UsersTableSeeder extends Seeder
                 'password' => bcrypt('123456'),
                 'gender' => 'male',
                 'age' => $this->getRandomUserAge(),
-                'user_preference' => $this->getRandomUserPreference() == 0 ? 'on_diet' : 'active',
+                'user_preference' => $this->getRandomUserPreferenceValue($this->getRandomUserPreference()),
                 'role' => 'user',
                 'profile_pic' => 'men/' . ($i + 1) . '.jpg'
             ]);
@@ -164,8 +164,18 @@ class UsersTableSeeder extends Seeder
         }
     }
 
+    public function getRandomUserPreferenceValue($user_preference){
+        if ($user_preference == 0){
+            return 'on_diet';
+        }elseif ($user_preference == 1){
+            return'active';
+        }else{
+            return 'vegetarian';
+        }
+    }
+
     public function getRandomUserPreference(){
-        return rand(0,1);
+        return rand(0,2);
     }
 
     public function getRandomUserAge(){

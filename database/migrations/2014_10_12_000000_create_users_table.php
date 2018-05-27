@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('gender');
             $table->integer('age');
-            $table->enum('user_preference',['general', 'on_diet', 'active ']);
+            $table->enum('user_preference',['general', 'on_diet', 'active ','vegetarian']);
             $table->string('profile_pic');
             $table->enum('role',  ['user', 'admin']);
             $table->rememberToken();

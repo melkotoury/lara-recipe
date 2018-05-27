@@ -61,9 +61,11 @@ class PagesController extends Controller
 
         $recipe_based_on_user_preference_active = DB::table('recipe_nutrition_facts')->orderBy('protein','desc')->take(6)->pluck('recipe_id');
         $recipe_based_on_user_preference_on_diet =  DB::table('recipe_nutrition_facts')->orderBy('fat', 'asc')->take(6)->pluck('recipe_id');
+        $recipe_based_on_user_preference_vegeterian = DB::table('recipes')->where('category','Vegetarian')->take(6)->pluck('id');
 
 
-//        $recipe_based_on_vegeterian = DB::table('recipes')->where('category','Vegeterian')->pluck('recipe_id');
+
+
 
         //recipes current user likes
         $user_like_recipe_ids = Like::where('user_id',$id)->where('like', 1)->pluck('recipe_id');
@@ -107,7 +109,8 @@ class PagesController extends Controller
                             'recipe_likes_id'                           => $recipe_likes_id,
                             'recipe_other_users_liked_id'               => $recipe_other_users_liked_id,
                             'recipe_based_on_user_preference_active'    => $recipe_based_on_user_preference_active,
-                            'recipe_based_on_user_preference_on_diet'  =>  $recipe_based_on_user_preference_on_diet
+                            'recipe_based_on_user_preference_on_diet'   =>  $recipe_based_on_user_preference_on_diet,
+                            'recipe_based_on_user_preference_vegeterian' => $recipe_based_on_user_preference_vegeterian
 
                             ]);
     }

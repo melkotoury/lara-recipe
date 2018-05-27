@@ -34,7 +34,24 @@ class UsersTableSeeder extends Seeder
             'Jennifer Doe',
             'Sylvia Doe',
             'Amina Doe',
-            'Sarah Doe'
+            'Sarah Doe',
+            'Salma Doe',
+            'Diana Doe',
+            'Monica Doe',
+            'Anne Doe',
+            'Aysel Doe',
+            'Mai Doe',
+            'Rewan Doe',
+            'Aya Doe',
+            'Manal Doe',
+            'Allaa Doe',
+            'Farah Doe',
+            'Dina Doe',
+            'Habiba Doe',
+            'Ghada Doe',
+            'Maha Doe',
+            'Mirna Doe',
+            'Nourhan Doe'
         );
 
         $female_emails = array(
@@ -47,7 +64,24 @@ class UsersTableSeeder extends Seeder
             'jennifer@example.com',
             'sylvia@example.com',
             'amina@example.com',
-            'sarah@example.com'
+            'sarah@example.com',
+            'salma@example.com',
+            'diana@example.com',
+            'monica@example.com',
+            'anne@example.com',
+            'aysel@example.com',
+            'mai@example.com',
+            'rewan@example.com',
+            'aya@example.com',
+            'manal@example.com',
+            'allaa@example.com',
+            'farah@example.com',
+            'dina@example.com',
+            'habiba@example.com',
+            'ghada@example.com',
+            'maha@example.com',
+            'mirna@example.com',
+            'nourhan@example.com'
         );
 
         $male_names = array(
@@ -60,7 +94,20 @@ class UsersTableSeeder extends Seeder
             'Samir Doe',
             'Chris Doe',
             'Ayman Doe',
-            'Mostafa Doe'
+            'Mostafa Doe',
+            'Ali Doe',
+            'Omar Doe',
+            'David Doe',
+            'Hassan Doe',
+            'Islam Doe',
+            'Ameer Doe',
+            'Fouad Doe',
+            'Alaa Doe',
+            'Khaled Doe',
+            'Sherif Doe',
+            'Ihab Doe',
+            'Basel Doe',
+            'Basem Doe'
         );
 
         $male_emails = array(
@@ -73,11 +120,24 @@ class UsersTableSeeder extends Seeder
             'samir@example.com',
             'chris@example.com',
             'ayman@example.com',
-            'mostafa@example.com'
+            'mostafa@example.com',
+            'ali@example.com',
+            'omar@example.com',
+            'david@example.com',
+            'hassan@example.com',
+            'islam@example.com',
+            'ameer@example.com',
+            'fouad@example.com',
+            'alaa@example.com',
+            'khaled@example.com',
+            'sherif@example.com',
+            'ihab@example.com',
+            'basel@example.com',
+            'basem@example.com'
         );
 
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 27; $i++) {
             User::create([
                 'name' => $female_names[$i],
                 'email' => $female_emails[$i],
@@ -89,7 +149,7 @@ class UsersTableSeeder extends Seeder
                 'profile_pic' => 'women/' . ($i + 1) . '.jpg'
             ]);
         }
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 23; $i++) {
             User::create([
                 'name' => $male_names[$i],
                 'email' => $male_emails[$i],
@@ -109,6 +169,6 @@ class UsersTableSeeder extends Seeder
     }
 
     public function getRandomUserAge(){
-        return rand(15,35);
+        return rand(11,60);
     }
 }

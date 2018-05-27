@@ -31,30 +31,30 @@ $review = new Review();
 
         <!-- Slide #1 -->
         <div class="rsContent">
-            <a class="rsImg" href="images/sliderA_01.jpg"></a>
-            <i class="rsTmb">Mexican Grilled <br> Corn Recipe</i>
+            <a class="rsImg" href="{{asset('storage/images/recipes/2.jpg')}}"></a>
+            <i class="rsTmb">Crispy Shrimp Pasta</i>
 
             <!-- Slide Caption -->
             <div class="SlideTitleContainer rsABlock">
                 <div class="CaptionAlignment">
                     <div class="rsSlideTitle tags">
                         <ul>
-                            <li>Baking</li>
+                            <li>Main Dish</li>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
 
-                    <h2 class="rsSlideTitle title"><a href="recipe-page-1.html">Mexican Grilled Corn Recipe</a></h2>
+                    <h2 class="rsSlideTitle title"><a href="{{url('recipe/2')}}">Crispy Shrimp Pasta</a></h2>
 
                     <div class="rsSlideTitle details">
                         <ul>
-                            <li><i class="fa fa-cutlery"></i> 4 Servings</li>
-                            <li><i class="fa fa-clock-o"></i> 30 Min</li>
+                            <li><i class="fa fa-cutlery"></i>  2 Servings</li>
+                            <li><i class="fa fa-clock-o"></i> 35 Min</li>
                             <li><i class="fa fa-user"></i> by <a href="#">Sandra Fortin</a></li>
                         </ul>
                     </div>
 
-                    <a href="recipe-page-1.html" class="rsSlideTitle button">View Recipe</a>
+                    <a href="{{url('recipe/2')}}" class="rsSlideTitle button">View Recipe</a>
                 </div>
             </div>
 
@@ -62,30 +62,31 @@ $review = new Review();
 
         <!-- Slide #2 -->
         <div class="rsContent">
-            <a class="rsImg" href="images/sliderA_02.jpg"></a>
-            <i class="rsTmb">Roast Chicken <br>With Lemon Gravy</i>
+            <a class="rsImg" href="{{asset('storage/images/recipes/20.jpg')}}"></a>
+            <i class="rsTmb">Soft Frosted Sugar Cookies</i>
 
             <!-- Slide Caption -->
             <div class="SlideTitleContainer rsABlock">
                 <div class="CaptionAlignment">
                     <div class="rsSlideTitle tags">
                         <ul>
-                            <li>Curry</li>
+                            <li>Dessert</li>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
 
-                    <h2 class="rsSlideTitle title"><a href="recipe-page-1.html">Roast Chicken <br>With Lemon Gravy</a></h2>
+                    <h2 class="rsSlideTitle title"><a href="{{url('recipe/20')}}">Soft Frosted Sugar Cookies</a></h2>
+
 
                     <div class="rsSlideTitle details">
                         <ul>
-                            <li><i class="fa fa-cutlery"></i> 4 Servings</li>
-                            <li><i class="fa fa-clock-o"></i> 1 Hr 20 Min</li>
+                            <li><i class="fa fa-cutlery"></i> 10 Servingss</li>
+                            <li><i class="fa fa-clock-o"></i> 42 Min</li>
                             <li><i class="fa fa-user"></i> by <a href="#">Sandra Fortin</a></li>
                         </ul>
                     </div>
 
-                    <a href="recipe-page-1.html" class="rsSlideTitle button">View Recipe</a>
+                    <a href="{{url('recipe/20')}}" class="rsSlideTitle button">View Recipe</a>
                 </div>
             </div>
 
@@ -93,30 +94,30 @@ $review = new Review();
 
         <!-- Slide #3 -->
         <div class="rsContent">
-            <a class="rsImg" href="images/sliderA_03.jpg"></a>
-            <i class="rsTmb">Avocado Melon Salad <br> With Lime Vinaigrette </i>
+            <a class="rsImg" href="{{asset('storage/images/recipes/14.jpg')}}"></a>
+            <i class="rsTmb">Strawberry, Banana and Almond Milk Smoothie</i>
 
             <!-- Slide Caption -->
             <div class="SlideTitleContainer rsABlock">
                 <div class="CaptionAlignment">
                     <div class="rsSlideTitle tags">
                         <ul>
-                            <li>Salads</li>
+                            <li>Beverages</li>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
 
-                    <h2 class="rsSlideTitle title"><a href="recipe-page-2.html">Avocado Melon Salad With Lime Vinaigrette</a></h2>
+                    <h2 class="rsSlideTitle title"><a href="{{url('recipe/14')}}">Strawberry, Banana and Almond Milk Smoothie</a></h2>
 
                     <div class="rsSlideTitle details">
                         <ul>
-                            <li><i class="fa fa-cutlery"></i> 1 Servings</li>
-                            <li><i class="fa fa-clock-o"></i> 15 Min</li>
+                            <li><i class="fa fa-cutlery"></i> 4 Servings</li>
+                            <li><i class="fa fa-clock-o"></i> 10 Min</li>
                             <li><i class="fa fa-user"></i> by <a href="#">Sandra Fortin</a></li>
                         </ul>
                     </div>
 
-                    <a href="recipe-page-2.html" class="rsSlideTitle button">View Recipe</a>
+                    <a href="{{url('recipe/14')}}" class="rsSlideTitle button">View Recipe</a>
                 </div>
             </div>
 
@@ -124,39 +125,8 @@ $review = new Review();
 
         <!-- Slide #4 -->
         <div class="rsContent">
-            <a class="rsImg" href="images/sliderA_04.jpg"></a>
-            <i class="rsTmb">Chunky Beef Stew</i>
-
-            <!-- Slide Caption -->
-            <div class="SlideTitleContainer rsABlock">
-                <div class="CaptionAlignment">
-                    <div class="rsSlideTitle tags">
-                        <ul>
-                            <li>Beef</li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-
-                    <h2 class="rsSlideTitle title"><a href="recipe-page-1.html">Chunky Beef Stew</a></h2>
-
-                    <div class="rsSlideTitle details">
-                        <ul>
-                            <li><i class="fa fa-cutlery"></i> 4 Servings</li>
-                            <li><i class="fa fa-clock-o"></i> 2 Hr 30 Min</li>
-                            <li><i class="fa fa-user"></i> by <a href="#">Sandra Fortin</a></li>
-                        </ul>
-                    </div>
-
-                    <a href="recipe-page-1.html" class="rsSlideTitle button">View Recipe</a>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Slide #5 -->
-        <div class="rsContent">
-            <a class="rsImg" href="images/sliderA_05.jpg"></a>
-            <i class="rsTmb">Farmhouse Vegetable <br> And Barley Soup</i>
+            <a class="rsImg" href="{{asset('storage/images/recipes/31.jpg')}}"></a>
+            <i class="rsTmb">Simple Creamy Carrot Soup</i>
 
             <!-- Slide Caption -->
             <div class="SlideTitleContainer rsABlock">
@@ -168,17 +138,49 @@ $review = new Review();
                         <div class="clearfix"></div>
                     </div>
 
-                    <h2 class="rsSlideTitle title"><a href="recipe-page-1.html">Farmhouse Vegetable And Barley Soup</a></h2>
+                    <h2 class="rsSlideTitle title"><a href="{{url('recipe/31')}}">Simple Creamy Carrot Soup</a></h2>
 
                     <div class="rsSlideTitle details">
                         <ul>
-                            <li><i class="fa fa-cutlery"></i> 4 Servings</li>
-                            <li><i class="fa fa-clock-o"></i> 1 Hr 30 Min</li>
+                            <li><i class="fa fa-cutlery"></i> 6 Servings</li>
+                            <li><i class="fa fa-clock-o"></i> 45 Min</li>
                             <li><i class="fa fa-user"></i> by <a href="#">Sandra Fortin</a></li>
                         </ul>
                     </div>
 
-                    <a href="recipe-page-1.html" class="rsSlideTitle button">View Recipe</a>
+                    <a href="{{url('recipe/31')}}" class="rsSlideTitle button">View Recipe</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Slide #5 -->
+        <div class="rsContent">
+            <a class="rsImg" href="{{asset('storage/images/recipes/26.jpg')}}"></a>
+            <i class="rsTmb">Slow Cooker Creamy Ranch Chicken</i>
+
+
+            <!-- Slide Caption -->
+            <div class="SlideTitleContainer rsABlock">
+                <div class="CaptionAlignment">
+                    <div class="rsSlideTitle tags">
+                        <ul>
+                            <li>Poultry</li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <h2 class="rsSlideTitle title"><a href="{{url('recipe/26')}}">Slow Cooker Creamy Ranch Chicken</a></h2>
+
+                    <div class="rsSlideTitle details">
+                        <ul>
+                            <li><i class="fa fa-cutlery"></i> 5 Servings</li>
+                            <li><i class="fa fa-clock-o"></i> 8 Hr</li>
+                            <li><i class="fa fa-user"></i> by <a href="#">Sandra Fortin</a></li>
+                        </ul>
+                    </div>
+
+                    <a href="{{url('recipe/26')}}"class="rsSlideTitle button">View Recipe</a>
                 </div>
             </div>
 

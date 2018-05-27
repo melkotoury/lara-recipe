@@ -13,7 +13,7 @@ class RecipeImagesTableSeeder extends Seeder
     public function run()
     {
 
-                for ($i=0;$i<10;$i++){
+                for ($i=0;$i<32;$i++){
 
                     RecipeImage::create([
                         'recipe_id' =>  ($i+1),

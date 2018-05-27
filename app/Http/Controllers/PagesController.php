@@ -34,7 +34,7 @@ class PagesController extends Controller
     public function index()
     {
         $recipes = Recipe::orderBy('created_at', 'desc')
-            ->take(6)
+            ->take(18)
             ->get();
 
         return view('pages.home',['recipes'=>$recipes]);
@@ -63,6 +63,7 @@ class PagesController extends Controller
         $recipe_based_on_user_preference_on_diet =  DB::table('recipe_nutrition_facts')->orderBy('fat', 'asc')->take(6)->pluck('recipe_id');
 
 
+//        $recipe_based_on_vegeterian = DB::table('recipes')->where('category','Vegeterian')->pluck('recipe_id');
 
         //recipes current user likes
         $user_like_recipe_ids = Like::where('user_id',$id)->where('like', 1)->pluck('recipe_id');

@@ -4620,13 +4620,13 @@ a.blockTitle:hover {
 
 .hover-cover {
     width: 100%;
-    height: 100%;
+    height: 280px;
     position: absolute;
     top: 0;
     left: 0;
     background-color: #333;
     opacity: 0;
-    visiblity: hidden
+    visiblity: hidden;
 }
 
 .thumbnail-holder:hover .hover-cover {
@@ -4680,11 +4680,12 @@ a.blockTitle:hover {
 
 .thumbnail-holder img {
     width: 100%;
+    height: 182px;
     position: relative;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
     -ms-backface-visibility: hidden;
-    backface-visibility: hidden
+    backface-visibility: hidden;
 }
 
 .list-style .recipe-box.columns {

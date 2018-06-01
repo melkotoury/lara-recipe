@@ -64,6 +64,7 @@ class PagesController extends Controller
         $recipe_based_on_user_preference_vegeterian = DB::table('recipes')->where('category','Vegetarian')->take(6)->pluck('id');
 
 
+        $combined_recipes_with_cat_i_liked = [];
 
 
 
@@ -73,6 +74,33 @@ class PagesController extends Controller
         //current user allergen and medical conditions
         $user_allergens = UserAllergen::where('user_id',$id)->pluck('name');
         $user_medical_conditions = UserMedicalCondition::where('user_id',$id)->pluck('name');
+
+
+        //get  Recipes I liked
+        $recipes_i_like = Like::where('user_id', $id)->pluck('recipe_id')->toArray();
+//        dd($recipes_i_like);
+
+        //get categories of recipes I liked
+        for ($i=0; $i< sizeof($recipes_i_like); $i++){
+            $categories_of_recipes_i_like[$i] = Recipe::where('id',$recipes_i_like[$i])->pluck('category')->toArray();
+
+        }
+//        dd($categories_of_recipes_i_like);
+        //get recipes with same categories I liked
+        for ($i=0; $i< sizeof($categories_of_recipes_i_like); $i++){
+            $recipes_with_same_categories_i_liked[$i] = Recipe::where('category',$categories_of_recipes_i_like[$i])->pluck('id')->toArray();
+            //get recipes with same categories I liked
+            for ($j=0; $j< sizeof($recipes_with_same_categories_i_liked[$i]); $j++){
+                $combined_recipes_with_cat_i_liked[] = array_push($combined_recipes_with_cat_i_liked, $recipes_with_same_categories_i_liked[$i][$j]);
+                $recipes_with_same_category_i_like = array_unique($combined_recipes_with_cat_i_liked , SORT_REGULAR);
+            }
+
+        }
+//        dd($recipes_with_same_categories_i_liked);
+
+
+
+
 
         //get other users who loves the same recipes current user loves
         foreach ($user_like_recipe_ids as $user_like_recipe_id){
@@ -110,7 +138,8 @@ class PagesController extends Controller
                             'recipe_other_users_liked_id'               => $recipe_other_users_liked_id,
                             'recipe_based_on_user_preference_active'    => $recipe_based_on_user_preference_active,
                             'recipe_based_on_user_preference_on_diet'   =>  $recipe_based_on_user_preference_on_diet,
-                            'recipe_based_on_user_preference_vegeterian' => $recipe_based_on_user_preference_vegeterian
+                            'recipe_based_on_user_preference_vegeterian' => $recipe_based_on_user_preference_vegeterian,
+                            'recipes_with_same_category_i_like'        => $recipes_with_same_category_i_like
 
                             ]);
     }

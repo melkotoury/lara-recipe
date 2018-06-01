@@ -427,7 +427,7 @@ $user_medical_conditions = UserMedicalCondition::where('user_id',$id)->get();
                 <!-- Isotope -->
                 <div class="isotope">
 
-                @foreach($recipe_based_on_user_preference_on_diet as $recipeId)
+                @foreach($recipe_based_on_user_preference_vegeterian as $recipeId)
 
                     <?php
                     $recipe = Recipe::find($recipeId);

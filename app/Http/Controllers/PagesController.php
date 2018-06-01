@@ -13,6 +13,7 @@ use App\UserMedicalCondition;
 use Illuminate\Http\Request;
 use App\Like;
 use DB;
+use PhpParser\Node\Expr\Array_;
 
 class PagesController extends Controller
 {
@@ -61,10 +62,9 @@ class PagesController extends Controller
 
         $recipe_based_on_user_preference_active = DB::table('recipe_nutrition_facts')->orderBy('protein','desc')->take(6)->pluck('recipe_id');
         $recipe_based_on_user_preference_on_diet =  DB::table('recipe_nutrition_facts')->orderBy('fat', 'asc')->take(6)->pluck('recipe_id');
-        $recipe_based_on_user_preference_vegeterian = DB::table('recipes')->where('category','Vegetarian')->take(6)->pluck('id');
+        $recipe_based_on_user_preference_vegeterian = Recipe::where('category', 'vegetarian')->pluck('id')->toArray();
 
-
-        $combined_recipes_with_cat_i_liked = [];
+//        dd($recipe_based_on_user_preference_vegeterian);
 
 
 
@@ -75,6 +75,7 @@ class PagesController extends Controller
         $user_allergens = UserAllergen::where('user_id',$id)->pluck('name');
         $user_medical_conditions = UserMedicalCondition::where('user_id',$id)->pluck('name');
 
+        $combined_recipes_with_cat_i_liked = array();
 
         //get  Recipes I liked
         $recipes_i_like = Like::where('user_id', $id)->pluck('recipe_id')->toArray();
@@ -91,12 +92,12 @@ class PagesController extends Controller
             $recipes_with_same_categories_i_liked[$i] = Recipe::where('category',$categories_of_recipes_i_like[$i])->pluck('id')->toArray();
             //get recipes with same categories I liked
             for ($j=0; $j< sizeof($recipes_with_same_categories_i_liked[$i]); $j++){
-                $combined_recipes_with_cat_i_liked[] = array_push($combined_recipes_with_cat_i_liked, $recipes_with_same_categories_i_liked[$i][$j]);
+                $combined_recipes_with_cat_i_liked =  array_merge($combined_recipes_with_cat_i_liked, $recipes_with_same_categories_i_liked[$i]);
                 $recipes_with_same_category_i_like = array_unique($combined_recipes_with_cat_i_liked , SORT_REGULAR);
             }
 
         }
-//        dd($recipes_with_same_categories_i_liked);
+//      dd($recipes_with_same_category_i_like);
 
 
 
